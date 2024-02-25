@@ -20,7 +20,7 @@ services:
       - redis
     volumes:
       - ./api-movies/app:/local
-    command: bash -c "gunicorn api-movies.wsgi --workers 1 -b 0.0.0.0:8000 --reload"
+    command: bash -c "gunicorn uservice.wsgi --workers 1 -b 0.0.0.0:8000 --reload"
 
   api-auth:
     build:
@@ -41,7 +41,7 @@ services:
       - redis
     volumes:
       - ./api-auth/app:/local
-    command: bash -c "gunicorn api-auth.wsgi --workers 1 -b 0.0.0.0:8000 --reload"
+    command: bash -c "gunicorn uservice.wsgi --workers 1 -b 0.0.0.0:8000 --reload"
 
 
   redis-server:
