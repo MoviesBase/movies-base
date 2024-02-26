@@ -34,6 +34,7 @@ services:
       - VIRTUAL_HOST=api-movies.localhost
       - VIRTUAL_PORT=8888
     depends_on:
+      - api-auth
       - nginx-proxy
       - movies-db
       - redis
