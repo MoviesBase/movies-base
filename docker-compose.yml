@@ -34,13 +34,13 @@ services:
       - VIRTUAL_HOST=api-movies.localhost
       - VIRTUAL_PORT=8888
     depends_on:
-      - api-auth
+#      - api-auth
       - nginx-proxy
       - movies-db
       - redis
     volumes:
       - ./api-movies/app:/local
-    command: bash -c "gunicorn uservice.wsgi --workers 1 -b 0.0.0.0:8888 --reload"
+      - ./scripts/check_service.py:/check_service.py
     networks:
       - movies-base-network
 
@@ -64,7 +64,6 @@ services:
       - redis
     volumes:
       - ./api-auth/app:/local
-    command: bash -c "gunicorn uservice.wsgi --workers 1 -b 0.0.0.0:8888 --reload"
     networks:
       - movies-base-network
 
@@ -97,11 +96,8 @@ services:
     image: mysql:5.7.37
     env_file:
       - .env.api-movies
-    ports:
-      - "3306:3306" # Map container's port 3306 to host's port 3307
-    volumes:
-      - ./api-movies_db:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
+    expose:
+      - "3306"
     networks:
       - movies-base-network
 
@@ -110,11 +106,8 @@ services:
     image: mysql:5.7.37
     env_file:
       - .env.api-auth
-    ports:
-      - "3307:3306" # Map container's port 3306 to host's port 3307
-    volumes:
-      - ./api-auth_db:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
+    expose:
+      - "3306"
     networks:
       - movies-base-network
 
