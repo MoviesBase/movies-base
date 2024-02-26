@@ -167,3 +167,7 @@ cython_debug/
 # Apps
 api-auth/
 api-movies/
+
+# database
+api-auth_db/
+api-movies_db/

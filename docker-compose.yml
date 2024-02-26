@@ -96,10 +96,10 @@ services:
     image: mysql:5.7.37
     env_file:
       - .env.api-movies
-    expose:
-      - "3306"
+    ports:
+      - "3306:3306" # Map container's port 3306 to host's port 3307
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./api-movies_db:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
     networks:
       - movies-base-network
@@ -109,10 +109,10 @@ services:
     image: mysql:5.7.37
     env_file:
       - .env.api-auth
-    expose:
-      - "3306"
+    ports:
+      - "3307:3306" # Map container's port 3306 to host's port 3307
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./api-auth_db:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
     networks:
       - movies-base-network
