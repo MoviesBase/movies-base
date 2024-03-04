@@ -38,6 +38,10 @@ services:
       - nginx-proxy
       - movies-db
       - redis
+    command: >
+      bash -c "python /check_service.py --service-name movies-db --ip movies-db --port 3306
+      && python manage.py makemigrations && python manage.py migrate
+      && gunicorn uservice.wsgi --workers 1 -b 0.0.0.0:8888 --reload"
     volumes:
       - ./api-movies/app:/local
       - ./scripts/check_service.py:/check_service.py
@@ -62,6 +66,10 @@ services:
       - nginx-proxy
       - auth-db
       - redis
+    command: >
+      bash -c "python /check_service.py --service-name auth-db --ip auth-db --port 3306
+      && python manage.py makemigrations && python manage.py migrate
+      && gunicorn uservice.wsgi --workers 1 -b 0.0.0.0:8888 --reload"
     volumes:
       - ./api-auth/app:/local
       - ./scripts/check_service.py:/check_service.py
